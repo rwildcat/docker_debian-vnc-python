@@ -6,7 +6,7 @@ Based on rsolano/debian-slim-vnc image.
 
 *Ramon Solano <ramon.solano@gmail.com>*
 
-**Last update:** May/01.2019
+**Last update:** May/01/2019
 
 ## Main packages
 
