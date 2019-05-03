@@ -1,6 +1,6 @@
 # Debian Python
 
-A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python, some basic engineering libraries, Jupyter Notebook, Spyder IDE, plus SSH.
+A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python, basic engineering libraries, Jupyter Notebook, Spyder IDE, plus SSH.
 
 Based on rsolano/debian-slim-vnc image.
 
@@ -16,6 +16,7 @@ Based on rsolano/debian-slim-vnc image.
 * IPython
 * Jupyter Notebook
 * Spyder IDE
+* MS VS Code
 * Firefox
 
 ## Users
@@ -34,7 +35,7 @@ $ docker build -t rsolano/debian-vnc-python .
 ## To run container
 
 ```sh
-$ docker run [-it] [--rm] [--detach] [-h <HOSTNAME] -p <LVNCPORT>:5900 -p <LSSHPORT>:22 -p <LNOTEBOOKPORT:8888> [-e XRES=1280x800x24] rsolano/debian-vnc-python
+$ docker run [-it] [--rm] [--detach] [-h <HOSTNAME] -p <LVNCPORT>:5900 -p <LSSHPORT>:22 -p <LNOTEBOOKPORT:8888> [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-python
 ```
 
 where:
@@ -47,6 +48,8 @@ where:
 
 * `LNOTEBOOKPORT`: Local HTTP Jupyter Notebook port to connecto to (e.g. 8888). Requires IP=0.0.0.0 when running Jupyter in your container for connecting from your locahost, otherwise IP=127.0.0.1 for internal access only.
 
+* `LDIR:DIR`: Local directory to mount on container. `LDIR` is the local directory to export; `DIR` is the target dir on the container.  Both sholud be specified as absolute paths. For example: `-v $HOME/worskpace:/home/debian/workspace`.
+
 ### Examples
 
 * Run container, keep terminal open (interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, no Jupyter Notebooks:
@@ -55,10 +58,10 @@ where:
 	$ docker run -it --rm -p 5900:5900 -p 2222:22 rsolano/debian-vnc-python
 	```
 
-* Run image, keep terminal open (interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, map Jupyter Notebooks to 8888:
+* Run image, keep terminal open (interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, map Jupyter Notebooks to 8888; mount local `$HOME/workspace` on container's `/home/debian/workspace`:
 
 	```sh
-	$ docker run -it --rm -p 5900:5900 -p 2222:22 -p 8888:8888 rsolano/debian-vnc-python
+	$ docker run -it --rm -p 5900:5900 -p 2222:22 -p 8888:8888 -v $HOME/workspace:/home/debian/workspace rsolano/debian-vnc-python
 	```
 
 * Run image, keep *console* open (non-interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, map Jupyter Notebooks to 8888:
@@ -161,7 +164,3 @@ where:
 	directory = /home/debian
 	user=debian
 	priority=300
-
-### To Do
-
-* Add volumes
