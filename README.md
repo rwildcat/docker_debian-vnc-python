@@ -1,12 +1,12 @@
 # Debian Python
 
-A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python, basic engineering libraries, Jupyter Notebook, Spyder IDE, plus SSH.
+A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python, basic engineering libraries, Jupyter Notebook, Spyder IDE, VS Code, plus SSH.
 
-Based on rsolano/debian-slim-vnc image.
+Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc) image.
 
-*Ramon Solano <ramon.solano@gmail.com>*
+*Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** May/01/2019
+**Last update:** May/03/2019
 
 ## Main packages
 
