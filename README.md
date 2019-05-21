@@ -1,12 +1,13 @@
 # Debian Python
 
-A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python, basic engineering libraries, Jupyter Notebook, Spyder IDE, VS Code, plus SSH.
+A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python + basic engineering modules, Jupyter Notebook, Spyder IDE, Visual Studio Code, and SSH.
 
 Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc) image.
 
 *Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** May/03/2019
+**Last update:** May/21/2019
+**Debian version:** 9.9
 
 ## Main packages
 
@@ -35,7 +36,7 @@ $ docker build -t rsolano/debian-vnc-python .
 ## To run container
 
 ```sh
-$ docker run [-it] [--rm] [--detach] [-h <HOSTNAME] -p <LVNCPORT>:5900 -p <LSSHPORT>:22 -p <LNOTEBOOKPORT:8888> [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-python
+$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-python
 ```
 
 where:
@@ -131,36 +132,3 @@ where:
 		Connect to host computer (e.g. your localhost) and specified LVNCPORT (e.g. 8888):
 		
 		```http://localhost:8888```
-		 
-
-
-## Additional files
-
-    ./etc/supervisor.conf
-
-### File contents:    
-
-	[supervisord]
-	nodaemon = true
-	user = root
-	#loglevel = debug
-	
-	[program:sshd]
-	command = /usr/sbin/sshd -D
-	
-	[program:xvfb]
-	command = /usr/bin/Xvfb :1 -screen 0 %(ENV_XRES)s
-	priority=100
-	
-	[program:x11vnc]
-	environment = DISPLAY=":1",XAUTHLOCALHOSTNAME="localhost"
-	command=/usr/bin/x11vnc -repeat -xkb -noxrecord -noxfixes -noxdamage -wait 10 -shared -permitfiletransfer -tightfilexfer
-	autorestart = true
-	priority=200 
-	
-	[program:startxfce4]
-	environment=USER="debian",HOME="/home/debian",DISPLAY=":1"
-	command=/usr/bin/startxfce4
-	directory = /home/debian
-	user=debian
-	priority=300
