@@ -1,8 +1,8 @@
 # Debian-based basic python wokstation
-# Updated on 2019-05-20
+# Updated on 2019-05-26
 # R. Solano <ramon.solano@gmail.com>
 
-FROM rsolano/debian-slim-vnc:9.9
+FROM rsolano/debian-slim-vnc
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \

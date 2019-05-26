@@ -6,14 +6,14 @@ Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-
 
 *Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** May/21/2019
+**Last update:** May/26/2019
 **Debian version:** 9.9
 
 ## Main packages
 
 * VNC, SSH (Inherited from rsolano/debian-slim-vnc)
 * Python[2,3]
-* Modules: Numpy, Matplotlib, Pandas, SciPy
+	* Modules: Numpy, Matplotlib, Pandas, SciPy
 * IPython
 * Jupyter Notebook
 * Spyder IDE
@@ -29,9 +29,25 @@ User/pwd:
 
 ## To build from `Dockerfile`
 
+If you want to customize the image or use it for creating a new one, you can download (clone) it from the [corresponding github repository](https://github.com/rwildcat/docker_debian-vnc-python). 
+
 ```sh
+# clone git repository
+$ git clone https://github.com/rwildcat/docker_debian-vnc-python.git
+
+# build image
+$ cd docker_debian-slim-vnc
 $ docker build -t rsolano/debian-vnc-python .
 ```
+
+Otherwise, you can *pull it* from its [docker hub repository](https://cloud.docker.com/u/rsolano/repository/docker/rsolano/debian-vnc-python):
+
+```
+$ docker pull rsolano/debian-vnc-python
+```
+
+**NOTE:** If you run the image without downloading it first (*e.g.* with `$docker run ..`), Docker will *pull it* from the docker repository for you if it does not exist in your local image repository.
+
 
 ## To run container
 
@@ -77,11 +93,44 @@ where:
 	$ docker run --detach -p 5900:5900 -p 2222:22 -p 8888:8888 -e XRES=1200x700x24 rsolano/debian-vnc-python
 	```
 
-**NOTES**
 
-* Some graphical programs such as Firefox and Spyder can run by copying their corresponding icons from the `/usr/share/applications` to your desktop.
 
-* Alternatively, you can find all your installed graphical applications from the `Application Finder` Panel dock (located just before your home folder icon).
+#### To run a ***secured*** VNC session
+
+This container is intended to be used as a *personal* graphic workstation, running in your local Docker engine. For this reason, no encryption for VNC is provided. 
+
+If you need to have an encrypted connection as for example for running this image in a remote host (*e.g.* AWS, Google Cloud, etc.), the VNC stream can be encrypted through a SSH connection:
+
+```sh
+$ ssh [-p SSHPORT] [-f] -L 5900:REMOTE:5900 debian@REMOTE sleep 60
+```
+where:
+
+* `SSHPORT`: SSH port specified when container was launched. If not specified, port 22 is used.
+
+* `-f`: Request SSH to go to background afte the command is issued
+
+* `REMOTE`: IP or qualified name for your remote container
+
+This example assume the SSH connection will be terminated after 60 seconds if no VNC connection is detected, or just after the VNC connection was finished.
+
+**EXAMPLES:**
+
+* Establish a secured VNC session to the remote host 140.172.18.21, keep open a SSH terminal to the remote host. Map remote 5900 port to local 5900 port. Assume remote SSH port is 22:
+
+	```sh
+	$ ssh -L 5900:140.172.18.21:5900 debian@140.172.18.21
+	```
+
+* As before, but do not keep a SSH session open, but send the connecction to the background. End SSH channel if no VNC connection is made in 60 s, or after the VNC session ends:
+
+	```sh
+	$ ssh -f -L 5900:140.172.18.21:5900 debian@140.172.18.21 sleep 60
+	```
+
+Once VNC is tunneled through SSH, you can connect your VNC viewer to you specified localhot port (*e.g.* port 5900 as in this examples).
+
+
 
 ## To stop container
 
