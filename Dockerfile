@@ -1,5 +1,6 @@
 # Debian-based basic python wokstation
-# Updated on 2019-05-26
+# Updated on 2019-06-11
+#
 # R. Solano <ramon.solano@gmail.com>
 
 FROM rsolano/debian-slim-vnc
@@ -8,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
 	\
 	&& apt-get install -qy python ipython python-pip python-rope \
-	python-numpy python-matplotlib python-pandas python-scipy \
+	python-numpy python-matplotlib python-pandas python-scipy python-plotly \
 	jupyter-notebook jupyter-nbextension-jupyter-js-widgets \
 	spyder firefox-esr \
 	\
@@ -25,8 +26,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # personal stuff
 USER debian
 
-# a. vscode extensions
-RUN code --install-extension ms-python.python
+# a. plotply and vscode extensions
+RUN pip install plotly \
+	&& code --install-extension ms-python.python
 
 # return to root
 USER root

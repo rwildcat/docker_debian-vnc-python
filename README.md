@@ -1,19 +1,19 @@
-# Debian Python
+# Debian VNC+Python
 
-A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides Python + basic engineering modules, Jupyter Notebook, Spyder IDE, Visual Studio Code, and SSH.
+A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides VNC+ Python + basic engineering modules, Jupyter Notebook, Spyder IDE, Visual Studio Code, and SSH.
 
 Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc) image.
 
 *Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** May/26/2019
+**Last update:** Jun/11/2019   
 **Debian version:** 9.9
 
 ## Main packages
 
 * VNC, SSH (Inherited from rsolano/debian-slim-vnc)
 * Python[2,3]
-	* Modules: Numpy, Matplotlib, Pandas, SciPy
+	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly
 * IPython
 * Jupyter Notebook
 * Spyder IDE
