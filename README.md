@@ -1,13 +1,15 @@
 # Debian VNC+Python
 
-A basic [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides VNC+ Python + basic engineering modules, Jupyter Notebook, Spyder IDE, Visual Studio Code, and SSH.
+A [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. 
+
+Provides VNC+SSH, Python w/ basic engineering modules, Jupyter Notebook, Spyder IDE and Visual Studio Code.
 
 Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc) image.
 
 *Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** Jun/11/2019   
-**Debian version:** 9.9
+**Last update:** Aug/16/2019   
+**Debian version:** 10.0
 
 ## Main packages
 
@@ -17,7 +19,7 @@ Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-
 * IPython
 * Jupyter Notebook
 * Spyder IDE
-* MS VS Code
+* MS Visual Studio Code
 * Firefox
 
 ## Users
@@ -27,7 +29,32 @@ User/pwd:
 * root/debian
 * debian/debian (sudoer)
 
-## To build from `Dockerfile`
+
+## Synopsis
+
+1. Download (*pull*) the image from its [docker hub repository](https://cloud.docker.com/u/rsolano/repository/docker/rsolano/debian-vnc-python) (optional):
+   
+	```sh
+	$ docker pull rsolano/debian-vnc-python
+	```
+   
+
+2. Run the container (the image will be *pulled* first if not previously downloaded).
+
+	For example, to run an ephemeral VNC session:
+
+	```sh
+   $ docker run --rm -p 5900:5900 rsolano/debian-vnc-python
+   ```
+
+3. Use a VNC Viewer (such as the [RealVNC viewer](https://www.realvnc.com/en/connect/download/viewer/)) to connect to the host server (usually the `localhost`), port 5900:
+
+	```
+	localhost:5900
+	```
+
+
+## To build the image from the `Dockerfile` (optional)
 
 If you want to customize the image or use it for creating a new one, you can download (clone) it from the [corresponding github repository](https://github.com/rwildcat/docker_debian-vnc-python). 
 
@@ -40,16 +67,8 @@ $ cd docker_debian-slim-vnc
 $ docker build -t rsolano/debian-vnc-python .
 ```
 
-Otherwise, you can *pull it* from its [docker hub repository](https://cloud.docker.com/u/rsolano/repository/docker/rsolano/debian-vnc-python):
 
-```
-$ docker pull rsolano/debian-vnc-python
-```
-
-**NOTE:** If you run the image without downloading it first (*e.g.* with `$docker run ..`), Docker will *pull it* from the docker repository for you if it does not exist in your local image repository.
-
-
-## To run container
+## To run the container (full syntax)
 
 ```sh
 $ docker run [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-python
