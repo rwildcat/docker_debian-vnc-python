@@ -8,26 +8,26 @@ Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-
 
 *Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** Feb/17/20120  
+**Last update:** Feb/18/2020  
 **Debian version:** 10.2
 
 ## Main packages
 
-* VNC, SSH (Inherited from rsolano/debian-slim-vnc)
+* VNC, SSH (Inherited from [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc))
 * Python2, Python3
 	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly
-* IPython
-* Jupyter Notebook
-* Spyder IDE
-* MS Visual Studio Code
+* IPython (Python2, Python3)
+* Jupyter Notebook (Python2, Python3)
+* Spyder IDE (Python2, Python3)
+* MS Visual Studio Code (w/ Python extension)
 * Firefox
 
 ## Users
 
-User/pwd:
-
-* root/debian
-* debian/debian (sudoer)
+| User | Password|
+| --- | --- |
+| root | debian |
+| debian | debian (sudoer) |
 
 
 ## Usage (synopsis)
