@@ -8,13 +8,13 @@ Based on [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-
 
 *Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** Aug/16/2019   
-**Debian version:** 10.0
+**Last update:** Feb/17/20120  
+**Debian version:** 10.2
 
 ## Main packages
 
 * VNC, SSH (Inherited from rsolano/debian-slim-vnc)
-* Python[2,3]
+* Python2, Python3
 	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly
 * IPython
 * Jupyter Notebook
@@ -30,7 +30,15 @@ User/pwd:
 * debian/debian (sudoer)
 
 
-## Synopsis
+## Usage (synopsis)
+
+Usage is split in two main sections:
+
+* Docker image usage
+* Python usage
+
+
+### Docker image usage
 
 1. Download (*pull*) the image from its [docker hub repository](https://cloud.docker.com/u/rsolano/repository/docker/rsolano/debian-vnc-python) (optional):
    
@@ -41,11 +49,25 @@ User/pwd:
 
 2. Run the container (the image will be *pulled* first if not previously downloaded).
 
-	For example, to run an ephemeral VNC session:
+	For example:
 
-	```sh
-   $ docker run --rm -p 5900:5900 rsolano/debian-vnc-python
-   ```
+	* To run an ephemeral VNC session (port 5900):
+
+		```sh
+	   $ docker run --rm -p 5900:5900 rsolano/debian-slim-vnc
+	   ```
+	   
+	* To run an ephemeral VNC + SSH session (port 5900 and 2222):
+
+		```sh
+	   $ docker run --rm -p 5900:5900 -p 2222:22 rsolano/debian-slim-vnc
+	   ```
+
+	* To run an ephemeral VNC + SSH session (port 5900 and 2222), and mounting my personal `$HOME/Documents` directory into remote `/Documents` :
+
+		```sh
+	   $ docker run --rm -p 5900:5900 -p 2222:22 -v HOME/Documents:/Docuents rsolano/debian-slim-vnc
+	   ```
 
 3. Use a VNC Viewer (such as the [RealVNC viewer](https://www.realvnc.com/en/connect/download/viewer/)) to connect to the host server (usually the `localhost`), port 5900:
 
@@ -53,8 +75,26 @@ User/pwd:
 	localhost:5900
 	```
 
+### Python usage
 
-## To build the image from the `Dockerfile` (optional)
+
+| Program  | Python2      | Python3      |
+| -------- | :----------- | :----------- |
+| Python  | `$ python2`   | `$ python3`  |
+| IPython  | `$ ipython2` | `$ ipython3` |
+| Spyder   | `$ spyder`   | `$ spyder3`  |
+| PIP      | `$ pip2`     | `$ pip3`     |
+
+
+**Jupyter Notebook**
+
+| Mode | Command |
+| --- | --- |
+| Local usage (localhost) | `$ jupyter-notebook --ip 127.0.0.1` |
+| Public usage (network): | `$ jupyter-notebook --ip 0.0.0.0` |
+
+
+## To build the image from the `Dockerfile` (optional, for Dockerfile developers)
 
 If you want to customize the image or use it for creating a new one, you can download (clone) it from the [corresponding github repository](https://github.com/rwildcat/docker_debian-vnc-python). 
 
@@ -151,7 +191,7 @@ Once VNC is tunneled through SSH, you can connect your VNC viewer to you specifi
 
 
 
-## To stop container
+## To stop the container
 
 * If running an interactive session:
 
