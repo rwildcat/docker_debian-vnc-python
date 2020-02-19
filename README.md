@@ -73,8 +73,9 @@ Usage is split in two main sections:
 	localhost:5900
 	```
 
-### Python usage
+### Programs usage
 
+**Python**
 
 | Program  | Python2      | Python3      |
 | -------- | :----------- | :----------- |
@@ -87,9 +88,9 @@ Usage is split in two main sections:
 **Jupyter Notebook**
 
 | Mode | Command |
-| --- | --- |
+| ---- | ------- |
 | Local usage (localhost) | `$ jupyter-notebook --ip 127.0.0.1` |
-| Public usage (network): | `$ jupyter-notebook --ip 0.0.0.0` |
+| Public usage (network): | `$ jupyter-notebook --ip 0.0.0.0`   |
 
 
 ## To build the image from the `Dockerfile` (optional, for Dockerfile developers)

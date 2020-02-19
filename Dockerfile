@@ -1,13 +1,14 @@
 
 # Debian-based basic python wokstation
-# Updated on 2020-01-17
+# Updated on 2020-01-19
 #
 # R. Solano <ramon.solano@gmail.com>
 
 FROM rsolano/debian-slim-vnc:10.2
 
 RUN export DEBIAN_FRONTEND=noninteractive \
-	&& apt-get update \
+	&& apt-get -q update \
+	&& apt-get -qy upgrade \
 	&& apt-get install -qy \
 	# python2
 		python ipython python-pip \
