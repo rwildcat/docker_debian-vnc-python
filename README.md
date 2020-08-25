@@ -1,24 +1,22 @@
 # Debian VNC+Python
 
-A graphical [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides VNC+SSH, Python w/ basic engineering modules, Jupyter Notebook, Spyder IDE and Visual Studio Code.
+A *graphical* [Debian](https://hub.docker.com/_/debian)-based personal Python workstation. Provides **VNC**, **SSH**, **Python** w/ basic engineering modules, **Jupyter Notebook**, **Spyder IDE** and **Visual Studio Code**.
 
 Based on the [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc) image.
 
-*Ramon Solano <<ramon.solano@gmail.com>>*
-
-**Last update:** Feb/18/2020  
-**Debian version:** 10.2
+**Last update:** Aug/25/2020  
+**Debian version:** 10.5
 
 ## Main packages
 
-* VNC, SSH (Inherited from [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc))
-* Python2, Python3
-	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly
-* IPython (Python2, Python3)
-* Jupyter Notebook (Python2, Python3)
-* Spyder IDE (Python2, Python3)
-* MS Visual Studio Code (w/ Python extension)
-* Firefox
+* **VNC**, **SSH** (Inherited from [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc))
+* **Python2**, **Python3**
+	* Modules: `Numpy`, `Matplotlib`, `Pandas`, `SciPy`, `Plotly`
+* **IPython** (Python2, Python3)
+* **Jupyter Notebook** (Python2, Python3)
+* **Spyder IDE** (Python2, Python3)
+* **MS Visual Studio Code** (w/ Python extension)
+* **Firefox**
 
 ## Users
 
@@ -107,10 +105,10 @@ $ docker build -t rsolano/debian-vnc-python .
 ```
 
 
-## To run the container (full syntax)
+## Full syntax
 
 ```sh
-$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-python
+$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] [-e TZ_AREA={tzarea}] [-e TZ_CITY={tzcity}] rsolano/debian-vnc-python
 ```
 
 where:
@@ -124,6 +122,10 @@ where:
 * `LNOTEBOOKPORT`: Local HTTP Jupyter Notebook port to connecto to (e.g. 8888). Requires IP=0.0.0.0 when running Jupyter in your container for connecting from your locahost, otherwise IP=127.0.0.1 for internal access only.
 
 * `LDIR:DIR`: Local directory to mount on container. `LDIR` is the local directory to export; `DIR` is the target dir on the container.  Both sholud be specified as absolute paths. For example: `-v $HOME/worskpace:/home/debian/workspace`.
+
+* `TZ_AREA`: Local Timezone area, e.g. `Etc`, `America`, etc.
+
+* `TZ_CITY`: Local timezone city, e.g. `UTC`, `Mexico_City`, etc.
 
 ### Examples
 
