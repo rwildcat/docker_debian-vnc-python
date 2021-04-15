@@ -4,8 +4,8 @@ A *graphical* [Debian](https://hub.docker.com/_/debian)-based personal Python wo
 
 Based on the [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc) image.
 
-**Last update:** Aug/25/2020  
-**Debian version:** 10.5
+**Last update:** Apr/14/2021  
+**Debian version:** 10.9
 
 ## Main packages
 
@@ -59,11 +59,42 @@ Usage is split in two main sections:
 	   $ docker run --rm -p 5900:5900 -p 2222:22 rsolano/debian-slim-vnc
 	   ```
 
-	* To run an ephemeral VNC + SSH session (port 5900 and 2222), and mounting my personal `$HOME/Documents` directory into remote `/Documents` :
+	* To run an ephemeral VNC + SSH session, and mounting my personal `$HOME/Documents` directory into remote `/Documents` :
 
 		```sh
-	   $ docker run --rm -p 5900:5900 -p 2222:22 -v HOME/Documents:/Docuents rsolano/debian-slim-vnc
+	   $ docker run --rm -p 5900:5900 -p 2222:22 -v $HOME/Documents:/Documents rsolano/debian-slim-vnc
 	   ```
+
+	* To run a Jupyter Notebook server -only session, delete image from memory once finished session and mount the current dir into `/notebooks` on server:
+
+		```sh
+		$ docker run -it --rm -p 8888:8888 -v `pwd`:/notebooks rsolano/debian-vnc-python jupiterd.sh /notebooks
+		```
+		
+		Notice that in order to start the Jupyter server, we run the command 
+		
+		~~~sh
+		... jupiterd.sh [<dir>]
+		~~~
+		
+		where `dir` is the inital directory Jupyter show as current (default: `/`). In the above example:
+		
+		~~~sh
+		... jupiterd.sh /notebooks
+		~~~
+		
+		the initial directory is `/notebooks`.
+		
+		Once runnning:
+
+		* Connect your web browser to `http://localhost:8888` and provide the given `token`.
+		* Session will end when the Jupyter session ends or press keys `CTRL-C`.
+
+	* To run an ephemeral VNC session and mount local `$HOME/notebooks` onto container's `/jnbs`:
+
+		```sh
+		$ docker run --rm -p 5900:5900 -v $HOME/notebooks:/jnbs rsolano/debian-vnc-python
+		```
 
 3. Use a VNC Viewer (such as the [RealVNC viewer](https://www.realvnc.com/en/connect/download/viewer/)) to connect to the host server (usually the `localhost`), port 5900:
 
@@ -90,7 +121,7 @@ Usage is split in two main sections:
 | Local usage (localhost) | `$ jupyter-notebook --ip 127.0.0.1` |
 | Public usage (network): | `$ jupyter-notebook --ip 0.0.0.0`   |
 
-
+&nbsp;
 ## To build the image from the `Dockerfile` (optional, for Dockerfile developers)
 
 If you want to customize the image or use it for creating a new one, you can download (clone) it from the [corresponding github repository](https://github.com/rwildcat/docker_debian-vnc-python). 
@@ -104,11 +135,11 @@ $ cd docker_debian-slim-vnc
 $ docker build -t rsolano/debian-vnc-python .
 ```
 
-
+&nbsp;
 ## Full syntax
 
 ```sh
-$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] [-e TZ_AREA={tzarea}] [-e TZ_CITY={tzcity}] rsolano/debian-vnc-python
+$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] [-e TZ={area/city}] rsolano/debian-vnc-python [CMD]
 ```
 
 where:
@@ -123,39 +154,12 @@ where:
 
 * `LDIR:DIR`: Local directory to mount on container. `LDIR` is the local directory to export; `DIR` is the target dir on the container.  Both sholud be specified as absolute paths. For example: `-v $HOME/worskpace:/home/debian/workspace`.
 
-* `TZ_AREA`: Local Timezone area, e.g. `Etc`, `America`, etc.
+* `TZ`: Local Timezone area/city, e.g. `Etc/UTC`, `America/Mexico_City`, etc. Default: `Etc/UTC`
 
-* `TZ_CITY`: Local timezone city, e.g. `UTC`, `Mexico_City`, etc.
+* `CMD`: Command to run. For example, `jupiterd.sh`
 
-### Examples
-
-* Run container, keep terminal open (interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, no Jupyter Notebooks:
-
-	```sh
-	$ docker run -it --rm -p 5900:5900 -p 2222:22 rsolano/debian-vnc-python
-	```
-
-* Run image, keep terminal open (interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, map Jupyter Notebooks to 8888; mount local `$HOME/workspace` on container's `/home/debian/workspace`:
-
-	```sh
-	$ docker run -it --rm -p 5900:5900 -p 2222:22 -p 8888:8888 -v $HOME/workspace:/home/debian/workspace rsolano/debian-vnc-python
-	```
-
-* Run image, keep *console* open (non-interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, map Jupyter Notebooks to 8888:
-
-	```sh
-	$ docker run --rm -p 5900:5900 -p 2222:22  -p 8888:8888 rsolano/debian-vnc-python
-	```
-
-* Run image, detach to background and keep running in memory (control returns to user immediately); map VNC to 5900 and SSH to 2222; map Jupyter Notebooks to 8888; change screen resolution to 1200x700x24
-
-	```sh
-	$ docker run --detach -p 5900:5900 -p 2222:22 -p 8888:8888 -e XRES=1200x700x24 rsolano/debian-vnc-python
-	```
-
-
-
-#### To run a ***secured*** VNC session
+&nbsp;
+## To run a ***secured*** VNC session
 
 This container is intended to be used as a *personal* graphic workstation, running in your local Docker engine. For this reason, no encryption for VNC is provided. 
 
